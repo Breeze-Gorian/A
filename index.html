@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="基于文本相似度的校园失物招领匹配系统，支持自然语言检索、匹配解释和可复现的模型对比。">
+  <meta name="theme-color" content="#193c33">
+  <title>失物有踪 · 校园失物招领匹配</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="engine.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转至主要内容</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#match"><span class="brand-mark" aria-hidden="true"></span><span>失物有踪</span></a>
+      <nav aria-label="主导航">
+        <a href="#match" aria-current="page">失物匹配</a>
+        <a href="#records">招领记录</a>
+        <a href="#experiment">模型实验</a>
+      </nav>
+      <span class="header-tag">校园失物招领</span>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section id="match" aria-labelledby="match-title">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> 失物查询</p>
+          <h1 id="match-title">找回落在校园的物品</h1>
+          <p>用自己的话描述丢失的物品。颜色、地点和特别的标记，都能帮你缩小范围。</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="map-street street-a"></span><span class="map-street street-b"></span>
+          <span class="map-street street-c"></span><span class="map-circle"></span>
+          <span class="map-block block-a"></span><span class="map-block block-b"></span>
+          <span class="map-block block-c"></span><span class="map-block block-d"></span>
+          <div class="map-pin"><span></span></div>
+        </div>
+      </header>
+
+      <div class="match-layout">
+        <form id="match-form" class="card match-card">
+          <h2>描述你丢失的物品</h2>
+          <label class="sr-only" for="query">失物描述</label>
+          <textarea id="query" name="query" maxlength="240" rows="5" placeholder="例如：图书馆一层靠窗，藏青色折叠雨伞，木质手柄。" aria-describedby="query-help" required></textarea>
+          <div class="input-meta"><span id="query-help">建议填写物品名称，再补充颜色、地点或标记</span><span id="query-count">0 / 240</span></div>
+          <div class="form-filters">
+            <label>类别（选填）<select id="match-category"><option value="">全部类别</option></select></label>
+            <label>地点（选填）<select id="match-location"><option value="">全部地点</option></select></label>
+          </div>
+          <button class="primary" type="submit"><span class="search-icon" aria-hidden="true"></span> 查找可能匹配</button>
+          <div class="examples" id="examples">
+            <span>试试示例</span>
+            <button type="button" data-example="0">藏青色折叠伞</button>
+            <button type="button" data-example="1">白色耳机盒</button>
+            <button type="button" data-example="2">紫色瑜伽垫</button>
+          </div>
+        </form>
+        <section class="card results-card" aria-labelledby="results-title">
+          <div class="section-top">
+            <h2 id="results-title">匹配结果</h2>
+            <span class="small-tag" id="result-count">等待查询</span>
+          </div>
+          <p id="search-status" class="result-status" role="status"></p>
+          <div id="results"></div>
+        </section>
+      </div>
+      <p class="privacy-note">课程演示 · 招领记录均为模拟数据。描述仅在当前浏览器中处理，请勿输入姓名、电话或证件号码。</p>
+    </section>
+
+    <section id="records" aria-labelledby="records-title" hidden>
+      <header class="sub-hero">
+        <h1 id="records-title">招领记录</h1>
+        <p>查看用于匹配的模拟招领库，按物品类别、地点或关键词筛选。</p>
+      </header>
+      <div class="card record-toolbar">
+        <label>搜索记录<input id="record-query" type="search" placeholder="标题、地点、描述或编号"></label>
+        <label>物品类别<select id="record-category"><option value="">全部类别</option></select></label>
+        <label>地点<select id="record-location"><option value="">全部地点</option></select></label>
+        <span id="record-count" class="small-tag" role="status"></span>
+      </div>
+      <div class="record-grid" id="record-list"></div>
+    </section>
+
+    <section id="experiment" aria-labelledby="experiment-title" hidden>
+      <header class="sub-hero">
+        <h1 id="experiment-title">模型实验</h1>
+        <p>用同一批留出的查询，检验文本匹配的排序能力，以及线索不足时系统能否主动少报。</p>
+      </header>
+      <div id="experiment-content"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>失物有踪</span><span>《人工智能基础与应用》课程项目</span></div></footer>
+  <noscript>本项目在浏览器中计算文本相似度。请启用 JavaScript 后重新打开此页面。</noscript>
+</body>
+</html>
